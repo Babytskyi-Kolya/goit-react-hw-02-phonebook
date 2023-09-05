@@ -3,7 +3,6 @@ import { FormContact } from './form/form';
 import { Filter } from './filter/filter';
 import { ListContacts } from './contacts/contacts';
 import {Div, H2} from './App.Styled';
-// import toast, { Toaster } from 'react-hot-toast';
 
 
 class App extends React.Component{
@@ -14,15 +13,24 @@ class App extends React.Component{
     filter: ""
   }
 
-  // notify = () => toast.error('This contact is already registered');
- 
+
   addContactUser = (nevUser) => {
-    this.setState(prevState => {
-      return{
-        contacts: [nevUser, ...prevState.contacts]
-      }  
-    })
-  }
+    const findedContact = this.state.contacts.find(contact =>
+         contact.name.toLowerCase().includes(nevUser.name.toLowerCase())
+       );
+   
+       if (findedContact) {
+         alert(`${findedContact.name} is already in contacts`);
+         return;
+       } else {
+           this.setState(prevState => {
+         return{
+           contacts: [nevUser, ...prevState.contacts]
+         }  
+       })
+       }
+     
+     }
 
   changeFilter = (newFilter) => {
      this.setState({
@@ -47,6 +55,7 @@ class App extends React.Component{
       <Div>
         <H2>Phone Book</H2>
       <FormContact  onAdd={this.addContactUser}/>
+      
 
       <H2>Contacts</H2>
 
